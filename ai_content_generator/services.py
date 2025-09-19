@@ -11,6 +11,51 @@ class DeepSeekChatService:
         self.api_key = settings.DEEPSEEK_API_KEY
         self.base_url = settings.DEEPSEEK_BASE_URL
         self.model = "deepseek-chat"
+        self.button_phrase = "Usa el botón 'Extraer Requisitos' para proceder con la generación del contenido SCORM."
+    
+    def ensure_button_phrase(self, content: str) -> str:
+        """Asegura que la frase del botón esté presente SOLO cuando el usuario confirme"""
+        # Verificar si el contenido ya contiene la frase del botón (exacta o variaciones)
+        button_variations = [
+            self.button_phrase,
+            "usar el botón 'extraer requisitos'",
+            "usar el botón extraer requisitos",
+            "botón 'extraer requisitos'",
+            "botón extraer requisitos"
+        ]
+        
+        if any(variation in content.lower() for variation in button_variations):
+            return content
+        
+        # Verificar si el usuario confirmó con "sí" o "si" (más específico)
+        content_lower = content.lower()
+        
+        # Palabras de confirmación positiva
+        positive_confirmations = [
+            'sí', 'si', 'yes', 'ok', 'okay', 'perfecto', 'está bien', 
+            'está correcto', 'correcto', 'bien', 'de acuerdo', 'conforme',
+            'está perfecto', 'excelente', 'genial', 'vamos', 'proceder'
+        ]
+        
+        # Palabras de negación o duda
+        negative_phrases = [
+            'no', 'necesito cambiar', 'no estoy seguro', 'tengo dudas',
+            'no me convence', 'no está bien', 'incorrecto', 'mal'
+        ]
+        
+        # Verificar si contiene frases negativas
+        has_negative = any(phrase in content_lower for phrase in negative_phrases)
+        if has_negative:
+            return content
+        
+        # Verificar si el usuario confirmó positivamente
+        user_confirmed = any(phrase in content_lower for phrase in positive_confirmations)
+        
+        # Solo agregar la frase si el usuario confirmó y no hay negativas
+        if user_confirmed and not has_negative:
+            return content + f"\n\n{self.button_phrase}"
+        
+        return content
     
     def chat_with_user(self, messages: List[Dict[str, str]]) -> Dict[str, Any]:
         """Maneja la conversación con el usuario usando DeepSeek"""
@@ -45,7 +90,15 @@ class DeepSeekChatService:
         try:
             response = requests.post(f"{self.base_url}/chat/completions", headers=headers, json=payload)
             response.raise_for_status()
-            return response.json()
+            response_data = response.json()
+            
+            # Asegurar que SIEMPRE se incluya la frase clave para habilitar el botón
+            if 'choices' in response_data and len(response_data['choices']) > 0:
+                assistant_message = response_data['choices'][0]['message']['content']
+                # Usar la función auxiliar para asegurar que la frase esté presente
+                response_data['choices'][0]['message']['content'] = self.ensure_button_phrase(assistant_message)
+            
+            return response_data
         except requests.exceptions.RequestException as e:
             raise Exception(f"Error en DeepSeek API: {str(e)}")
     
@@ -88,11 +141,16 @@ class DeepSeekChatService:
         4. Si tienes suficiente información, confirma y procede
         5. Recuerda: el contenido será SCORM para GrapesJS
         
-        CUANDO TENGAS TODA LA INFORMACIÓN NECESARIA:
-        - Di exactamente: "¡Perfecto! Está listo tu contenido para ser generado"
-        - Resumen brevemente lo que vas a crear
-        - Agrega al final: "Usa el botón 'Extraer Requisitos' para proceder con la generación del contenido SCORM."
-        - NO hagas más preguntas después de esto
+        ESTRATEGIA DE CONFIRMACIÓN FINAL:
+        1. Cuando tengas suficiente información, haz un resumen de lo que vas a crear
+        2. Pregunta específicamente: "¿Estás conforme con estos requisitos? Responde 'sí' para proceder con la generación del contenido SCORM."
+        3. SOLO cuando el usuario responda "sí" o "si", entonces di: "¡Perfecto! Usa el botón 'Extraer Requisitos' para proceder con la generación del contenido SCORM."
+        4. Si el usuario dice "no" o tiene dudas, continúa refinando los requisitos
+        
+        IMPORTANTE: 
+        - NO envíes la frase del botón hasta que el usuario confirme con "sí"
+        - La frase "Usa el botón 'Extraer Requisitos' para proceder con la generación del contenido SCORM." SOLO debe aparecer después de confirmación explícita del usuario
+        - Si el usuario no está conforme, continúa preguntando y refinando
         
         Mantén un tono amigable y profesional. Responde siempre en español.
         """
@@ -108,8 +166,20 @@ class DeepSeekChatService:
                 last_assistant_message = msg.get('content', '').lower()
                 break
         
+        # Verificar si el asistente está listo (múltiples frases clave)
+        ready_phrases = [
+            "usar el botón 'extraer requisitos'",
+            "usar el botón extraer requisitos",
+            "botón 'extraer requisitos'",
+            "botón extraer requisitos",
+            "extraer requisitos para proceder",
+            "proceder con la generación del contenido scorm"
+        ]
+        
+        is_ready = any(phrase in last_assistant_message for phrase in ready_phrases)
+        
         # Si el asistente no dijo que está listo, no extraer requisitos
-        if not last_assistant_message or "está listo tu contenido para ser generado" not in last_assistant_message:
+        if not last_assistant_message or not is_ready:
             return None
         
         extraction_prompt = """
@@ -266,6 +336,12 @@ ENFOQUE: Contenido educativo EDITABLE con GrapesJS, elementos interactivos y est
                 raise Exception(f"API Error {response.status_code}: {response.text}")
             
             response_data = response.json()
+            
+            # Asegurar que SIEMPRE se incluya la frase clave para habilitar el botón
+            if 'choices' in response_data and len(response_data['choices']) > 0:
+                assistant_message = response_data['choices'][0]['message']['content']
+                response_data['choices'][0]['message']['content'] = self.ensure_button_phrase(assistant_message)
+            
             return response_data
         except requests.exceptions.Timeout:
             raise Exception("Timeout: La API de DeepSeek tardó demasiado en responder")

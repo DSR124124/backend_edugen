@@ -30,6 +30,7 @@ def health_check(request):
             '/api/info/',
             '/api/v1/accounts/',
             '/api/v1/academic/',
+            '/api/v1/director/',
         ]
     })
 

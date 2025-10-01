@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # 'django.contrib.staticfiles',  # Disabled
+    # 'django.contrib.staticfiles',  # Disabled - no static files
     # 3rd party
     'rest_framework',
     'corsheaders',
@@ -142,8 +142,8 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files disabled
-STATIC_URL = None
+# Static files disabled - Admin will work without CSS/JS
+STATIC_URL = ''
 STATIC_ROOT = None
 
 MEDIA_URL = '/media/'

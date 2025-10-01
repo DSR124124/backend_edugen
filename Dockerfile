@@ -20,7 +20,8 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copiar el proyecto
 COPY . .
 
-# Static files disabled - no collectstatic needed
+# Recopilar archivos estáticos para el admin
+RUN python manage.py collectstatic --noinput
 
 # Exponer puerto
 EXPOSE 8000

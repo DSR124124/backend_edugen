@@ -28,6 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "edugen.brianuceda.xyz",
     "edugen-backend-zailce-3c26d2-154-38-186-149.traefik.me",
+    "127.0.0.1",
+    "localhost",
+    "*",  # Allow all hosts for development
 ]
 
 
@@ -39,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # 'django.contrib.staticfiles',  # Disabled - no static files
+    'django.contrib.staticfiles',  # Re-enabled for styled admin
     # 3rd party
     'rest_framework',
     'corsheaders',
@@ -142,9 +145,9 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files disabled - Admin will work without CSS/JS
-STATIC_URL = ''
-STATIC_ROOT = None
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

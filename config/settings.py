@@ -76,6 +76,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
+# URL Configuration
+APPEND_SLASH = True
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -185,6 +188,7 @@ CORS_ALLOWED_HEADERS = [
 # CSRF settings for production
 CSRF_TRUSTED_ORIGINS = [
     'https://edugen-backend-zailce-3c26d2-154-38-186-149.traefik.me',
+    'https://edugen.brianuceda.xyz',
     'http://localhost:3000',
     'http://127.0.0.1:3000',
 ]

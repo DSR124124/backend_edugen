@@ -184,8 +184,7 @@ CORS_ALLOWED_HEADERS = [
 
 # CSRF settings for production
 CSRF_TRUSTED_ORIGINS = [
-    'https://edugen-backend-yqi8si-eb5351-45-41-205-100.traefik.me',
-    'https://edugen-backend-zailce-056055-154-38-186-149.traefik.me',
+    'https://edugen-backend-zailce-3c26d2-154-38-186-149.traefik.me',
     'http://localhost:3000',
     'http://127.0.0.1:3000',
 ]

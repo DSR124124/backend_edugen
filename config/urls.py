@@ -48,11 +48,6 @@ urlpatterns = [
     path("api/v1/director/",   include("director.urls")),
 ]
 
-d# Servir archivos de media y estáticos
+# Servir archivos de media en desarrollo
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-else:
-    # En producción, servir archivos estáticos también
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

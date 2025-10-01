@@ -1,29 +1,30 @@
-# Usa una imagen base oficial de Python
+# Imagen base ligera
 FROM python:3.11-slim
 
-# Configura variables de entorno
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# Variables de entorno
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
-# Crea y establece el directorio de trabajo
+# Directorio de trabajo
 WORKDIR /app
 
-# Instala dependencias del sistema necesarias
+# Dependencias del sistema
 RUN apt-get update && apt-get install -y \
     libpq-dev gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Copia los archivos de requirements e instala dependencias
-COPY requirements/base.txt /app/requirements.txt
-RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
+# Copiar e instalar dependencias
+COPY requirements/base.txt requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copia el resto del proyecto
-COPY . /app/
+# Copiar el proyecto
+COPY . .
 
-# Expone el puerto para Django
+# Recopilar estáticos (producción)
+RUN python manage.py collectstatic --noinput
+
+# Exponer puerto
 EXPOSE 8000
 
-# Comando por defecto para ejecutar el servidor de desarrollo
-# Para producción, usar: CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Ejecutar migraciones automáticamente al arrancar y luego iniciar Gunicorn
+CMD ["sh", "-c", "python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 4 --threads 2 --timeout 120"]

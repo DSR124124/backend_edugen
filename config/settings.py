@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    # 'django.contrib.staticfiles',  # Disabled
     # 3rd party
     'rest_framework',
     'corsheaders',
@@ -142,11 +142,9 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Static files disabled
+STATIC_URL = None
+STATIC_ROOT = None
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

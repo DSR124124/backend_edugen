@@ -190,7 +190,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # DeepSeek API Configuration
-DEEPSEEK_API_KEY = 'sk-941988b5859a4a62bf22ba0b0f0b4656'
+DEEPSEEK_API_KEY = 'sk-9359b4330dbc4e35a4df1d0cdee0cfaa'
 DEEPSEEK_BASE_URL = 'https://api.deepseek.com/v1'
 
 # JWT Configuration

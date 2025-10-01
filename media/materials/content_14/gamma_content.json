@@ -1,0 +1,269 @@
+{
+  "id": "doc_1759293881",
+  "title": "CTA - Biodiversidad - Secundaria_3",
+  "description": "Contenido educativo generado con IA - CTA - Biodiversidad",
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "hero",
+      "title": "Biodiversidad",
+      "subtitle": "Explorando los niveles de la diversidad biológica",
+      "body": "Descubre la riqueza de la vida en nuestro planeta y comprende cómo se organiza en diferentes niveles",
+      "media": {
+        "type": "image",
+        "src": "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+      },
+      "props": {
+        "background": "gradient",
+        "alignment": "center",
+        "padding": "large"
+      }
+    },
+    {
+      "id": "b2",
+      "type": "paragraph",
+      "content": "La biodiversidad es la variedad de formas de vida que existen en nuestro planeta, incluyendo la diversidad de especies, ecosistemas y genes. Es fundamental para el equilibrio ecológico y proporciona servicios esenciales como la purificación del aire, la polinización de cultivos y la regulación del clima.",
+      "props": {
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b3",
+      "type": "callout",
+      "content": "La biodiversidad no es solo la cantidad de especies, sino también la variedad genética dentro de ellas y la diversidad de ecosistemas donde habitan.",
+      "props": {
+        "type": "info",
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b4",
+      "type": "heading",
+      "content": "Niveles de Biodiversidad",
+      "props": {
+        "level": "h2",
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b5",
+      "type": "list",
+      "items": [
+        "Diversidad Genética: Variación de genes dentro de una misma especie",
+        "Diversidad de Especies: Variedad de especies en un ecosistema o región",
+        "Diversidad de Ecosistemas: Variedad de hábitats, comunidades y procesos ecológicos"
+      ],
+      "props": {
+        "type": "unordered",
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b6",
+      "type": "heading",
+      "content": "Diversidad Genética",
+      "props": {
+        "level": "h3",
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b7",
+      "type": "paragraph",
+      "content": "La diversidad genética se refiere a la variación de genes dentro de una población o especie. Esta variación es crucial para la adaptación y supervivencia de las especies frente a cambios ambientales, enfermedades y otros factores.",
+      "props": {
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b8",
+      "type": "card",
+      "title": "Ejemplo: Diversidad Genética",
+      "content": "En una población de perros, encontramos diferentes razas como labradores, pastores alemanes y chihuahuas. Cada raza tiene características genéticas únicas que les permiten adaptarse a diferentes entornos y funciones.",
+      "props": {
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b9",
+      "type": "heading",
+      "content": "Diversidad de Especies",
+      "props": {
+        "level": "h3",
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b10",
+      "type": "paragraph",
+      "content": "La diversidad de especies mide la variedad de especies diferentes que coexisten en un ecosistema o región geográfica. Un ecosistema con alta diversidad de especies es más estable y resistente a perturbaciones.",
+      "props": {
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b11",
+      "type": "image",
+      "src": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80",
+      "caption": "Un bosque tropical muestra alta diversidad de especies con múltiples tipos de árboles, plantas y animales coexistiendo",
+      "props": {
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b12",
+      "type": "heading",
+      "content": "Diversidad de Ecosistemas",
+      "props": {
+        "level": "h3",
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b13",
+      "type": "paragraph",
+      "content": "La diversidad de ecosistemas se refiere a la variedad de hábitats, comunidades biológicas y procesos ecológicos en la biosfera. Incluye desde bosques y desiertos hasta océanos y humedales.",
+      "props": {
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b14",
+      "type": "callout",
+      "content": "Cada nivel de biodiversidad está interconectado. La pérdida en un nivel puede afectar negativamente a los otros niveles.",
+      "props": {
+        "type": "warning",
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b15",
+      "type": "quiz",
+      "question": "¿Cuál de los siguientes ejemplos representa mejor la diversidad genética?",
+      "options": [
+        "Diferentes especies de árboles en un bosque",
+        "Variedad de razas de maíz con diferentes resistencias a plagas",
+        "Presencia de múltiples ecosistemas en una región montañosa",
+        "Coexistencia de aves, mamíferos e insectos en un parque"
+      ],
+      "correctAnswer": 1,
+      "explanation": "La variedad de razas de maíz con diferentes resistencias representa diversidad genética porque muestra variación dentro de la misma especie (maíz).",
+      "props": {
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b16",
+      "type": "quiz",
+      "question": "Un bosque que contiene pinos, robles, ardillas, pájaros y hongos representa principalmente:",
+      "options": [
+        "Diversidad genética",
+        "Diversidad de especies",
+        "Diversidad de ecosistemas",
+        "Ninguna de las anteriores"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Este ejemplo muestra diversidad de especies porque incluye múltiples especies diferentes (árboles, animales y hongos) coexistiendo en un mismo lugar.",
+      "props": {
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b17",
+      "type": "heading",
+      "content": "Ejemplos Prácticos",
+      "props": {
+        "level": "h2",
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b18",
+      "type": "card",
+      "title": "Ejemplo 1: Parque Nacional",
+      "content": "En un parque nacional encontramos:\n- Diversidad genética: Diferentes variedades de una misma especie de árbol\n- Diversidad de especies: Múltiples especies de plantas, animales e insectos\n- Diversidad de ecosistemas: Bosques, ríos, praderas y humedales",
+      "props": {
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b19",
+      "type": "card",
+      "title": "Ejemplo 2: Granja Agrícola",
+      "content": "En una granja podemos identificar:\n- Diversidad genética: Diferentes variedades de cultivos con distintas características\n- Diversidad de especies: Cultivos, animales domésticos, insectos polinizadores\n- Diversidad de ecosistemas: Campos de cultivo, pastizales, áreas boscosas",
+      "props": {
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b20",
+      "type": "quiz",
+      "question": "Identifica el nivel de biodiversidad que representa cada situación:\n\n1. En una manada de lobos, algunos tienen pelaje más claro y otros más oscuro\n2. En un arrecife de coral coexisten corales, peces, estrellas de mar y algas\n3. En una región hay bosques, desiertos, ríos y montañas",
+      "options": [
+        "1-Genética, 2-Especies, 3-Ecosistemas",
+        "1-Especies, 2-Genética, 3-Ecosistemas",
+        "1-Ecosistemas, 2-Especies, 3-Genética",
+        "1-Genética, 2-Ecosistemas, 3-Especies"
+      ],
+      "correctAnswer": 0,
+      "explanation": "1: Diversidad genética (variación dentro de la misma especie), 2: Diversidad de especies (múltiples especies coexistiendo), 3: Diversidad de ecosistemas (diferentes tipos de hábitats).",
+      "props": {
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b21",
+      "type": "callout",
+      "content": "¡Excelente! Has comprendido los tres niveles de biodiversidad. Recuerda que proteger la biodiversidad es esencial para mantener el equilibrio de nuestro planeta.",
+      "props": {
+        "type": "success",
+        "padding": "medium"
+      }
+    },
+    {
+      "id": "b22",
+      "type": "form",
+      "title": "Reflexión Final",
+      "fields": [
+        {
+          "type": "textarea",
+          "label": "Describe un ejemplo de tu comunidad donde puedas identificar los tres niveles de biodiversidad",
+          "placeholder": "Ejemplo: En el parque de mi barrio...",
+          "required": true
+        }
+      ],
+      "props": {
+        "padding": "medium"
+      }
+    }
+  ],
+  "metadata": {
+    "author": "Juan Pérez",
+    "tags": [
+      "generado",
+      "ia",
+      "educativo",
+      "cta - biodiversidad"
+    ],
+    "category": "educativo",
+    "difficulty": "secundaria_3",
+    "estimatedTime": 45,
+    "language": "es",
+    "learning_objectives": [
+      "Comprender los niveles de biodiversidad",
+      "Introducción a la biodiversidad",
+      "Identificación de niveles de biodiversidad en ejemplos concretos"
+    ],
+    "content_type": "presentation"
+  },
+  "settings": {
+    "theme": "light",
+    "fontSize": "medium",
+    "showOutline": true,
+    "allowComments": true,
+    "allowCollaboration": false
+  },
+  "createdAt": "2025-10-01T04:44:41.504085+00:00",
+  "updatedAt": "2025-10-01T04:44:41.504085+00:00",
+  "version": 1
+}

@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-8ulo*l^@$ht9480zls$ia3lr6yip*66o5k4!e%*#+yskdke+@2
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    "edugen-backend.brianuceda.xyz",
     "edugen.brianuceda.xyz",
-    "edugen-backend-zailce-3c26d2-154-38-186-149.traefik.me",
     "127.0.0.1",
     "localhost",
     "*",  # Allow all hosts for development
@@ -184,8 +184,8 @@ CORS_ALLOWED_HEADERS = [
 
 # CSRF settings for production
 CSRF_TRUSTED_ORIGINS = [
-    'http://edugen-backend-zailce-3c26d2-154-38-186-149.traefik.me',
-    'https://edugen-backend-zailce-3c26d2-154-38-186-149.traefik.me',
+    'http://edugen-backend.brianuceda.xyz',
+    'https://edugen-backend.brianuceda.xyz',
     'https://edugen.brianuceda.xyz',
 ]
 

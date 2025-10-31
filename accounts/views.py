@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
+from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 from django.contrib.auth import authenticate
@@ -32,21 +33,49 @@ class LoginView(APIView):
     permission_classes = [AllowAny]
     
     def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        
-        username = serializer.validated_data['username']
-        password = serializer.validated_data['password']
-        
-        user = authenticate(username=username, password=password)
-        if user:
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-                'user': UserSerializer(user).data
-            })
-        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            serializer = LoginSerializer(data=request.data)
+            if not serializer.is_valid():
+                # Traducir mensajes de error de validación a español
+                error_messages = []
+                for field, messages in serializer.errors.items():
+                    for message in messages:
+                        if isinstance(message, str):
+                            # Si el mensaje ya está en español (del serializer), usarlo tal cual
+                            error_messages.append(message)
+                        else:
+                            # Traducir mensajes genéricos
+                            msg_str = str(message)
+                            if 'required' in msg_str.lower():
+                                error_messages.append(f'El campo {field} es requerido.')
+                            elif 'blank' in msg_str.lower():
+                                error_messages.append(f'El campo {field} no puede estar vacío.')
+                            else:
+                                error_messages.append(msg_str)
+                
+                if error_messages:
+                    return Response({
+                        'error': error_messages[0] if len(error_messages) == 1 else 'Por favor, completa todos los campos requeridos.'
+                    }, status=status.HTTP_400_BAD_REQUEST)
+            
+            username = serializer.validated_data['username']
+            password = serializer.validated_data['password']
+            
+            user = authenticate(username=username, password=password)
+            if user:
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                    'user': UserSerializer(user).data
+                })
+            return Response({'error': 'Credenciales incorrectas'}, status=status.HTTP_401_UNAUTHORIZED)
+        except ValidationError as e:
+            # Capturar cualquier ValidationError y asegurar que el mensaje esté en español
+            error_detail = str(e.detail) if hasattr(e, 'detail') else str(e)
+            if 'invalid credentials' in error_detail.lower():
+                return Response({'error': 'Credenciales incorrectas'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error': error_detail}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class MeView(APIView):
@@ -66,8 +95,8 @@ class LogoutView(APIView):
             if refresh_token:
                 token = RefreshToken(refresh_token)
                 token.blacklist()
-            return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
+            return Response({'message': 'Cierre de sesión exitoso'}, status=status.HTTP_200_OK)
         except TokenError:
-            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Token inválido'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({'error': 'Logout failed'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Error al cerrar sesión'}, status=status.HTTP_400_BAD_REQUEST)

@@ -32,5 +32,15 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField()
+    username = serializers.CharField(
+        error_messages={
+            'required': 'El campo usuario es requerido.',
+            'blank': 'El campo usuario no puede estar vacío.',
+        }
+    )
+    password = serializers.CharField(
+        error_messages={
+            'required': 'El campo contraseña es requerido.',
+            'blank': 'El campo contraseña no puede estar vacío.',
+        }
+    )

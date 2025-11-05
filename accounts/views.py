@@ -40,13 +40,15 @@ class LoginView(APIView):
         
         user = authenticate(username=username, password=password)
         if user:
+            # El login solo valida credenciales, no requiere sección asignada
+            # La validación de sección se hace en las vistas que la requieren
             refresh = RefreshToken.for_user(user)
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
                 'user': UserSerializer(user).data
             })
-        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'error': 'Credenciales incorrectas'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class MeView(APIView):

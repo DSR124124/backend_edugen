@@ -540,11 +540,30 @@ class MaterialViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_404_NOT_FOUND
                 )
             
+            # Verificar si ya está asignado a todos los estudiantes solicitados
+            existing_assigned = set(material.assigned_students.values_list('id', flat=True))
+            
             # Asignar estudiantes según el tipo de asignación
             if assignment_type == 'general':
-                # Asignar a todos los estudiantes de la sección
-                material.assigned_students.set(students)
-                assigned_count = len(students)
+                # Verificar si ya está asignado a todos los estudiantes de la sección
+                students_set = set(students)
+                if existing_assigned.issuperset(students_set) and len(existing_assigned) >= len(students_set):
+                    return Response({
+                        'warning': f'El material ya está asignado a todos los estudiantes de esta sección',
+                        'material_id': material.id,
+                        'material_name': material.name,
+                        'assigned_count': len(existing_assigned),
+                        'assignment_type': assignment_type,
+                        'already_assigned': True
+                    }, status=status.HTTP_200_OK)
+                
+                # Agregar estudiantes que no están asignados
+                students_to_add = students_set - existing_assigned
+                if students_to_add:
+                    material.assigned_students.add(*students_to_add)
+                    assigned_count = len(students_to_add)
+                else:
+                    assigned_count = 0
             else:
                 # Asignar solo a estudiantes seleccionados
                 if not selected_students:
@@ -561,20 +580,49 @@ class MaterialViewSet(viewsets.ModelViewSet):
                         status=status.HTTP_400_BAD_REQUEST
                     )
                 
-                material.assigned_students.set(valid_students)
-                assigned_count = len(valid_students)
+                # Verificar si ya está asignado a todos los estudiantes seleccionados
+                valid_students_set = set(valid_students)
+                if existing_assigned.issuperset(valid_students_set) and len(existing_assigned) >= len(valid_students_set):
+                    return Response({
+                        'warning': f'El material ya está asignado a todos los estudiantes seleccionados',
+                        'material_id': material.id,
+                        'material_name': material.name,
+                        'assigned_count': len(existing_assigned),
+                        'assignment_type': assignment_type,
+                        'already_assigned': True
+                    }, status=status.HTTP_200_OK)
+                
+                # Agregar estudiantes que no están asignados
+                students_to_add = valid_students_set - existing_assigned
+                if students_to_add:
+                    material.assigned_students.add(*students_to_add)
+                    assigned_count = len(students_to_add)
+                else:
+                    assigned_count = 0
             
             # Marcar el material como personalizado si se asignó a estudiantes específicos
             if assignment_type == 'personalized':
                 material.is_shared = False
                 material.save()
             
+            if assigned_count == 0:
+                return Response({
+                    'warning': 'El material ya estaba asignado a todos los estudiantes seleccionados',
+                    'message': 'No se realizaron asignaciones nuevas',
+                    'material_id': material.id,
+                    'material_name': material.name,
+                    'assigned_count': 0,
+                    'assignment_type': assignment_type,
+                    'already_assigned': True
+                }, status=status.HTTP_200_OK)
+            
             return Response({
                 'message': f'Material asignado exitosamente a {assigned_count} estudiante(s)',
                 'material_id': material.id,
                 'material_name': material.name,
                 'assigned_count': assigned_count,
-                'assignment_type': assignment_type
+                'assignment_type': assignment_type,
+                'already_assigned': False
             })
             
         except Exception as e:

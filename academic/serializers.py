@@ -9,6 +9,7 @@ from institutions.serializers import InstitutionSerializer, TermSerializer
 
 class CourseSerializer(serializers.ModelSerializer):
     institution_name = serializers.CharField(source='institution.name', read_only=True)
+    professor_name = serializers.SerializerMethodField()
     
     class Meta:
         model = Course
@@ -16,6 +17,12 @@ class CourseSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'institution': {'required': False}
         }
+    
+    def get_professor_name(self, obj):
+        """Obtener el nombre completo del profesor"""
+        if obj.professor:
+            return f"{obj.professor.first_name} {obj.professor.last_name}".strip() or obj.professor.username
+        return None
     
     def validate_description(self, value):
         """Handle empty description"""

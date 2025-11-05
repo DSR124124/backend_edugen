@@ -63,6 +63,8 @@ class LoginView(APIView):
             
             user = authenticate(username=username, password=password)
             if user:
+                # El login solo valida credenciales, no requiere sección asignada
+                # La validación de sección se hace en las vistas que la requieren
                 refresh = RefreshToken.for_user(user)
                 return Response({
                     'refresh': str(refresh),
